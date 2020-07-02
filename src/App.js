@@ -1,7 +1,7 @@
 import React from 'react';
 import GlobalStyles from './GlobalStyles';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import Main from './Pages/Main';
+import Home from './Pages/Home';
 import { ContentContainer } from './Components/GlobalComponents/BodyHelper';
 import Header from './Components/Header/Header';
 
@@ -16,7 +16,7 @@ function App() {
         <GlobalStyles />
         <ContentContainer>
           <Route exact path={'/'}>
-            <Main />
+            <Home />
           </Route>
         </ContentContainer>
       </ThemeProvider>
