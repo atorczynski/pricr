@@ -21,6 +21,7 @@ export const HeaderLink = styled.a`
 
 export const HeaderTitle = styled.h1`
   color: #ddd;
+  background: #FFF;
   transition: all 0.2s ease-in;
 
   :hover {
