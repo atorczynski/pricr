@@ -4,6 +4,9 @@ import {
   HeaderTitle,
   HeaderWrapper,
   HeaderLink,
+  NaviList,
+  NaviListItem,
+  NaviListItemLink,
 } from './HeaderComponents';
 
 export default function Header({ heading }) {
@@ -13,6 +16,14 @@ export default function Header({ heading }) {
         <HeaderLink href={'/'}>
           <HeaderTitle>{heading}</HeaderTitle>
         </HeaderLink>
+        <NaviList>
+          <NaviListItemLink href={'/'}>
+            <NaviListItem>Login</NaviListItem>
+         </NaviListItemLink>
+         <NaviListItemLink href={'/'}>
+            <NaviListItem>Register</NaviListItem>
+         </NaviListItemLink>
+        </NaviList>
       </HeaderWrapper>
     </HeaderContainer>
   );

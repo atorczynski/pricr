@@ -14,11 +14,9 @@ function App() {
       <ThemeProvider theme={defaultTheme}>
         <Header heading={'PRICR'} />
         <GlobalStyles />
-        <ContentContainer>
           <Route exact path={'/'}>
             <Home />
           </Route>
-        </ContentContainer>
       </ThemeProvider>
     </Router>
   );

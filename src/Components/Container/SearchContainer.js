@@ -2,21 +2,28 @@ import React, { useState } from 'react';
 import {
   SearchContainerWrapper,
   SearchBar,
+  SearchBarWrapper,
+  SearchBarTitle,
+  FindButton,
 } from '../Container/SearchContainerComponents';
 
-export default function SearchContainer() {
-  const [placeholder, setPlaceholder] = useState('Please Enter Product Name');
+export default function SearchContainer({ SBTitle }) {
+  const [placeholder, setPlaceholder] = useState('Please enter the product name (e.g. Playstation 4)');
   return (
     <SearchContainerWrapper>
-      <SearchBar
-        placeholder={placeholder}
-        onFocus={() => {
-          setPlaceholder('');
-        }}
-        onBlur={() => {
-          setPlaceholder('Please Enter Product Name');
-        }}
-      />
+      <SearchBarWrapper>
+        <SearchBarTitle>{SBTitle}</SearchBarTitle>
+        <SearchBar
+          placeholder={placeholder}
+          onFocus={() => {
+            setPlaceholder('');
+          }}
+          onBlur={() => {
+            setPlaceholder('Please enter the product name (e.g. Playstation 4)');
+          }}
+        />
+        <FindButton>search</FindButton>
+      </SearchBarWrapper>
     </SearchContainerWrapper>
   );
 }
