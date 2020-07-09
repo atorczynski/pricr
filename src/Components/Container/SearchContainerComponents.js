@@ -45,7 +45,7 @@ export const SearchBar = styled.input`
   }
 `;
 
-export const SearchBarButtonWrapper = styled.div`
+export const SearchBarButtonWrapper = styled.form`
   display: flex;
   width: 100%;
   justify-content: center;
