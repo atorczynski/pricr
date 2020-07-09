@@ -1,5 +1,4 @@
 import { Button } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import styled from '@emotion/styled';
 
 export const SearchContainerWrapper = styled.div`
