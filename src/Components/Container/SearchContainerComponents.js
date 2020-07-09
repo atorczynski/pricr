@@ -1,5 +1,4 @@
 import { Button } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 import styled from '@emotion/styled';
 
 export const SearchContainerWrapper = styled.div`
@@ -45,7 +44,7 @@ export const SearchBar = styled.input`
   }
 `;
 
-export const SearchBarButtonWrapper = styled.div`
+export const SearchBarButtonWrapper = styled.form`
   display: flex;
   width: 100%;
   justify-content: center;

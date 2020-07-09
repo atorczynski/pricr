@@ -9,17 +9,28 @@ import {
 } from '../Container/SearchContainerComponents';
 import SearchIcon from '@material-ui/icons/Search';
 
-export default function SearchContainer({ SBTitle }) {
+export default function SearchContainer({
+  SBTitle,
+  recievedData,
+  onChange,
+  onSubmit,
+  onButtonClick,
+  inputValue,
+}) {
   const [placeholder, setPlaceholder] = useState(
     'Please enter the product name (e.g. Playstation 4)'
   );
+
   return (
-    <SearchContainerWrapper>
+    <SearchContainerWrapper inputValue={inputValue} recievedData={recievedData}>
       <SearchBarWrapper>
         <SearchBarTitle>{SBTitle}</SearchBarTitle>
-        <SearchBarButtonWrapper>
+        <SearchBarButtonWrapper onSubmit={onSubmit}>
           <SearchBar
             placeholder={placeholder}
+            value={inputValue}
+            autoFocus={true}
+            onChange={onChange}
             onFocus={() => {
               setPlaceholder('');
             }}
@@ -30,6 +41,7 @@ export default function SearchContainer({ SBTitle }) {
             }}
           />
           <SearchButton
+            onClick={onButtonClick}
             style={{ borderRadius: 0 }}
             size={'medium'}
             variant='contained'
