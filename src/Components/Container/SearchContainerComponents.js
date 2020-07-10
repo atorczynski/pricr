@@ -4,13 +4,14 @@ import styled from '@emotion/styled';
 export const SearchContainerWrapper = styled.div`
   background-color: #f7eec7;
   width: 100%;
+  position: relative;
   height: 300px;
   display: flex;
   flex-direction: row;
+  z-index: 0;
   justify-content: space-around;
   border-bottom: 1px solid #f4d35e;
   border-top: 1px solid #f4d35e;
-  box-shadow: 0px 6px 17px 1px rgba(0, 0, 0, 0.75);
 `;
 
 export const SearchBarWrapper = styled.div`
