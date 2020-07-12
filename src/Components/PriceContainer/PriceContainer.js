@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { Button } from '@material-ui/core';
 
 const PriceWrapper = styled.div`
-  width: 50%;
-  height: 250px;
+  width: 30%;
+  height: 200px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -13,12 +13,18 @@ const PriceWrapper = styled.div`
   display: ${(props) => props.display};
   background-color: #fff;
   margin-top: 25px;
-  border: 1px solid #aaa;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  padding: 1px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  border: 1px solid rgb(13, 59, 102);
+
+  @media (max-width: 700px) {
+    width: 90%;
+  }
 `;
 
 const ImgWrapper = styled.div`
-  width: 50%;
+  width: 40%;
   height: 100%;
   position: relative;
   overflow: none;
@@ -39,21 +45,30 @@ const ItemInformationWrapper = styled.div`
 `;
 
 const PriceInformationWrapper = styled.div`
-  height: 20%;
-  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 45px;
+  background: #ee964b;
+  border-radius: 35px;
 `;
 
 const InformationHeading = styled.h2`
+  color: #4a4a4a;
   font-size: ${(props) => props.fontSize};
+  text-transform: uppercase;
   text-align: center;
   font-weight: ${(props) => props.fontWeight};
+  margin: ${(props) => props.margin};
 `;
 
 const ItemPrice = styled.h2`
-  font-size: 50px;
-  color: #111111;
+  font-weight: 300;
+  font-size: 35px;
+  color: #111;
+  -webkit-text-stroke: 0.3px #676767;
   text-align: center;
-  margin: 5px 0 0 0;
 `;
 const ButtonWrapper = styled.div`
   display: flex;
@@ -85,21 +100,25 @@ export default function PriceContainer({
       </ImgWrapper>
       <TestWrapper>
         <ItemInformationWrapper>
-          <InformationHeading fontSize={'21px'}>
+          <InformationHeading fontSize={'21px'} margin={'10px 0 0 0'}>
             {searchedItem}
           </InformationHeading>
-          <InformationHeading fontSize={'16px'} fontWeight={'400'}>
-            Avarage Price
+          <InformationHeading
+            fontSize={'14px'}
+            fontWeight={'400'}
+            margin={'10px 0 10px 0'}
+          >
+            Average Price
           </InformationHeading>
           <PriceInformationWrapper>
             <ItemPrice>{priceDisplay} €</ItemPrice>
           </PriceInformationWrapper>
         </ItemInformationWrapper>
         <ButtonWrapper>
-          <Button variant={'contained'} color={'primary'}>
+          <Button size={'small'} variant={'contained'} color={'primary'}>
             Save Item
           </Button>
-          <Button variant={'contained'} color={'primary'}>
+          <Button size={'small'} variant={'contained'} color={'primary'}>
             Show on ebay
           </Button>
         </ButtonWrapper>
