@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import SearchContainer from '../Components/Container/SearchContainer';
 import PriceContainer from '../Components/PriceContainer/PriceContainer';
+import { calcPrice } from '../lib/calcAveragePrice';
+import { isWidthUp } from '@material-ui/core';
 
 const PriceWrapper = styled.div`
   display: flex;
@@ -14,8 +16,10 @@ const PriceWrapper = styled.div`
 
 export default function Home() {
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [itemPrice, setItemPrice] = useState(null);
   const [inputValue, setInputValue] = useState('');
-  const [searchedValue, setSearchedValue] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   const [showPrice, setShopPrice] = useState(false);
 
   const apiKey = process.env.REACT_APP_API_KEY;
@@ -27,45 +31,63 @@ export default function Home() {
       'x-requested-with': 'Accept',
     },
   };
-  const proxy = 'https://cors-anywhere.herokuapp.com/';
 
-  async function getSearchResults(proxy, url, searchTerm) {
-    const request = await axios.get(proxy + url + searchTerm, headers);
-    setData(request.data);
-  }
+  useEffect(() => {
+    async function getData() {
+      try {
+        setLoading(true);
+        console.log(loading);
+        const proxy = 'https://cors-anywhere.herokuapp.com/';
+        const response = await axios.get(
+          proxy +
+            `https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=${searchQuery}`,
+          headers
+        );
+        setData(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+        setShopPrice(true);
+      }
+    }
+    getData();
+  }, [searchQuery]);
 
-  const baseSearchAPI = `https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=`;
+  const updateSearch = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const getSearch = (e) => {
+    e.preventDefault();
+    setSearchQuery(inputValue);
+    console.log(searchQuery);
+  };
+
+  useEffect(() => {
+    const itemAverage = calcPrice(data.itemSales);
+
+    setItemPrice(itemAverage);
+  }, [data]);
 
   return (
     <React.Fragment>
       <SearchContainer
         SBTitle={'Search for your product and compare the prices on ebay!'}
-        onChange={(e) => {
-          e.preventDefault();
-          setInputValue(e.target.value);
+        onChange={updateSearch}
+        onClick={(e) => {
+          getSearch(e);
         }}
-        onButtonClick={() => {
-          getSearchResults(proxy, baseSearchAPI, inputValue);
-          console.log(data);
-          setInputValue('');
-          setShopPrice(true);
-        }}
+        onSubmit={(e) => {}}
         inputValue={inputValue}
-        onSubmit={(e) => {
-          e.preventDefault();
-          getSearchResults(proxy, baseSearchAPI, inputValue);
-          console.log(data);
-          setSearchedValue(inputValue);
-          setShopPrice(true);
-          setInputValue('');
-        }}
       />
       {showPrice ? (
         <PriceWrapper>
           <PriceContainer
             display={''}
-            searchedItem={searchedValue}
-            priceDisplay={'100'}
+            searchedItem={searchQuery}
+            priceDisplay={itemPrice}
           />{' '}
         </PriceWrapper>
       ) : null}
