@@ -1,8 +1,7 @@
 import React from 'react';
 import GlobalStyles from './GlobalStyles';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './Pages/Home';
-import { ContentContainer } from './Components/GlobalComponents/BodyHelper';
 import Header from './Components/Header/Header';
 
 import { ThemeProvider } from 'emotion-theming';
@@ -14,9 +13,9 @@ function App() {
       <ThemeProvider theme={defaultTheme}>
         <Header heading={'PRICR'} />
         <GlobalStyles />
-          <Route exact path={'/'}>
-            <Home />
-          </Route>
+        <Route exact path={'/'}>
+          <Home />
+        </Route>
       </ThemeProvider>
     </Router>
   );
