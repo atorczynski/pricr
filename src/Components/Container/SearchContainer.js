@@ -14,7 +14,7 @@ export default function SearchContainer({
   recievedData,
   onChange,
   onSubmit,
-  onButtonClick,
+  onClick,
   inputValue,
 }) {
   const [placeholder, setPlaceholder] = useState(
@@ -41,7 +41,7 @@ export default function SearchContainer({
             }}
           />
           <SearchButton
-            onClick={onButtonClick}
+            onClick={onClick}
             style={{ borderRadius: 0 }}
             size={'medium'}
             variant='contained'
