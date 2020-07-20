@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import SearchContainer from '../Components/Container/SearchContainer';
 import PriceContainer from '../Components/PriceContainer/PriceContainer';
 import { calcPrice } from '../lib/calcAveragePrice';
-import { isWidthUp } from '@material-ui/core';
+import { Loader } from '../Components/SpinLoader/SpinLoader';
 
 const PriceWrapper = styled.div`
   display: flex;
@@ -16,11 +16,14 @@ const PriceWrapper = styled.div`
 
 export default function Home() {
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [itemPrice, setItemPrice] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFirstFetch, setFirstFetch] = useState(true);
   const [showPrice, setShopPrice] = useState(false);
+
+  const isFirstRender = useRef(true);
 
   const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -33,26 +36,31 @@ export default function Home() {
   };
 
   useEffect(() => {
-    async function getData() {
-      try {
-        setLoading(true);
-        console.log(loading);
-        const proxy = 'https://cors-anywhere.herokuapp.com/';
-        const response = await axios.get(
-          proxy +
-            `https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=${searchQuery}`,
-          headers
-        );
-        setData(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-        setShopPrice(true);
+    if (isFirstRender.current) {
+      console.log('hi');
+      isFirstRender.current = false;
+    } else {
+      async function getData() {
+        try {
+          setLoading(true);
+          console.log(loading);
+          const proxy = 'https://cors-anywhere.herokuapp.com/';
+          const response = await axios.get(
+            proxy +
+              `https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=${searchQuery}`,
+            headers
+          );
+          setData(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+          setShopPrice(true);
+        }
       }
+      getData();
     }
-    getData();
   }, [searchQuery]);
 
   const updateSearch = (e) => {
@@ -61,8 +69,10 @@ export default function Home() {
 
   const getSearch = (e) => {
     e.preventDefault();
+    setFirstFetch(true);
     setSearchQuery(inputValue);
     console.log(searchQuery);
+    setFirstFetch(false);
   };
 
   useEffect(() => {
@@ -79,10 +89,15 @@ export default function Home() {
         onClick={(e) => {
           getSearch(e);
         }}
-        onSubmit={(e) => {}}
+        onSubmit={(e) => {
+          getSearch(e);
+        }}
         inputValue={inputValue}
       />
-      {showPrice ? (
+
+      {isFirstFetch ? null : loading ? (
+        <Loader />
+      ) : (
         <PriceWrapper>
           <PriceContainer
             display={''}
@@ -90,7 +105,7 @@ export default function Home() {
             priceDisplay={itemPrice}
           />{' '}
         </PriceWrapper>
-      ) : null}
+      )}
     </React.Fragment>
   );
 }
