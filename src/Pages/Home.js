@@ -21,7 +21,14 @@ export default function Home() {
   const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [isFirstFetch, setFirstFetch] = useState(true);
+  const [isChecked, setChecked] = useState(false);
   const [showPrice, setShopPrice] = useState(false);
+  const [condition, setCondition] = useState();
+
+  const conditionIds = {
+    new: 'conditionIds%3a%7b1000%7c2000%7d',
+    used: 'conditionIds%3a%7b3000%7c6000%7d',
+  };
 
   const isFirstRender = useRef(true);
 
@@ -47,11 +54,12 @@ export default function Home() {
           const proxy = 'https://cors-anywhere.herokuapp.com/';
           const response = await axios.get(
             proxy +
-              `https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=${searchQuery}`,
+              `https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=${searchQuery}&filter=${condition}&limit=100`,
             headers
           );
           setData(response.data);
           console.log(response.data);
+          console.log(response.data.total);
         } catch (error) {
           console.log(error);
         } finally {
@@ -69,7 +77,6 @@ export default function Home() {
 
   const getSearch = (e) => {
     e.preventDefault();
-    setFirstFetch(true);
     setSearchQuery(inputValue);
     console.log(searchQuery);
     setFirstFetch(false);
@@ -80,6 +87,18 @@ export default function Home() {
 
     setItemPrice(itemAverage);
   }, [data]);
+
+  function handleSwitch() {
+    if (isChecked === false) {
+      setChecked(true);
+      setCondition(conditionIds.used);
+      console.log(conditionIds.used);
+    } else {
+      setChecked(false);
+      setCondition(conditionIds.new);
+      console.log(conditionIds.new);
+    }
+  }
 
   return (
     <React.Fragment>
@@ -93,10 +112,18 @@ export default function Home() {
           getSearch(e);
         }}
         inputValue={inputValue}
+        isChecked={isChecked}
+        handleSwitch={() => {
+          handleSwitch();
+        }}
       />
 
       {isFirstFetch ? null : loading ? (
         <Loader />
+      ) : data.total === 0 ? (
+        <PriceWrapper>
+          <h3>No Results Found</h3>
+        </PriceWrapper>
       ) : (
         <PriceWrapper>
           <PriceContainer
