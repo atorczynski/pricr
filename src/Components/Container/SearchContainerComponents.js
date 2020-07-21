@@ -1,4 +1,4 @@
-import { Button, FormControlLabel } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import styled from '@emotion/styled';
 
 export const SearchContainerWrapper = styled.div`

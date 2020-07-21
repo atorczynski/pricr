@@ -26,7 +26,6 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFirstFetch, setFirstFetch] = useState(true);
   const [isChecked, setChecked] = useState(false);
-  const [showPrice, setShopPrice] = useState(false);
   const [condition, setCondition] = useState(conditionIds.used);
 
   const isFirstRender = useRef(true);
@@ -43,13 +42,11 @@ export default function Home() {
 
   useEffect(() => {
     if (isFirstRender.current) {
-      console.log('hi');
       isFirstRender.current = false;
     } else {
       async function getData() {
         try {
           setLoading(true);
-          console.log(loading);
           const proxy = 'https://cors-anywhere.herokuapp.com/';
           const response = await axios.get(
             proxy +
@@ -57,13 +54,10 @@ export default function Home() {
             headers
           );
           setData(response.data);
-          console.log(response.data);
-          console.log(response.data.total);
         } catch (error) {
           console.log(error);
         } finally {
           setLoading(false);
-          setShopPrice(true);
         }
       }
       getData();
