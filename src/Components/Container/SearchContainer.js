@@ -13,7 +13,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import Switch from 'react-switch';
 
 export default function SearchContainer({
-  SBTitle,
   recievedData,
   onChange,
   onSubmit,

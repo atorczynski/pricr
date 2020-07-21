@@ -1,6 +1,5 @@
 export function calcPrice(data) {
   if (!data) {
-    console.log('no data provided');
     return;
   } else {
     let prices = [];
