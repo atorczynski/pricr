@@ -1,8 +1,12 @@
-import { Button } from '@material-ui/core';
+import { Button, FormControlLabel } from '@material-ui/core';
 import styled from '@emotion/styled';
 
 export const SearchContainerWrapper = styled.div`
-  background-color: #f7eec7;
+  background-image: radial-gradient(
+    circle farthest-corner at 10% 20%,
+    rgba(69, 86, 102, 1) 0%,
+    rgba(34, 34, 34, 1) 90%
+  );
   width: 100%;
   position: relative;
   height: 300px;
@@ -23,7 +27,7 @@ export const SearchBarWrapper = styled.div`
 `;
 
 export const SearchBarTitle = styled.p`
-  color: #555555;
+  color: #ddd;
   font-size: 30px;
 `;
 
@@ -77,4 +81,18 @@ export const SearchButton = styled(Button)`
   :hover {
     background: #f4d35e;
   }
+`;
+
+export const SwitchWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  align-items: center;
+`;
+
+export const SwitchLabel = styled.span`
+  color: ${(props) => props.color};
+  margin-left: ${(props) => props.marginLeft};
+  margin-right: ${(props) => props.marginRight};
+  opacity: ${(props) => props.opacity};
 `;

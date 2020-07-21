@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import SearchContainer from '../Components/Container/SearchContainer';
 import PriceContainer from '../Components/PriceContainer/PriceContainer';
 import { calcPrice } from '../lib/calcAveragePrice';
-import { isWidthUp } from '@material-ui/core';
+import { Loader } from '../Components/SpinLoader/SpinLoader';
 
 const PriceWrapper = styled.div`
   display: flex;
@@ -13,14 +13,23 @@ const PriceWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const conditionIds = {
+  new: 'conditionIds%3a%7b1000%7c2000%7d',
+  used: 'conditionIds%3a%7b3000%7c6000%7d',
+};
 
 export default function Home() {
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [itemPrice, setItemPrice] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFirstFetch, setFirstFetch] = useState(true);
+  const [isChecked, setChecked] = useState(false);
   const [showPrice, setShopPrice] = useState(false);
+  const [condition, setCondition] = useState(conditionIds.used);
+
+  const isFirstRender = useRef(true);
 
   const apiKey = process.env.REACT_APP_API_KEY;
 
@@ -33,27 +42,33 @@ export default function Home() {
   };
 
   useEffect(() => {
-    async function getData() {
-      try {
-        setLoading(true);
-        console.log(loading);
-        const proxy = 'https://cors-anywhere.herokuapp.com/';
-        const response = await axios.get(
-          proxy +
-            `https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=${searchQuery}`,
-          headers
-        );
-        setData(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-        setShopPrice(true);
+    if (isFirstRender.current) {
+      console.log('hi');
+      isFirstRender.current = false;
+    } else {
+      async function getData() {
+        try {
+          setLoading(true);
+          console.log(loading);
+          const proxy = 'https://cors-anywhere.herokuapp.com/';
+          const response = await axios.get(
+            proxy +
+              `https://api.sandbox.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search?q=${searchQuery}&filter=${condition}&limit=100`,
+            headers
+          );
+          setData(response.data);
+          console.log(response.data);
+          console.log(response.data.total);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+          setShopPrice(true);
+        }
       }
+      getData();
     }
-    getData();
-  }, [searchQuery]);
+  }, [searchQuery, condition]);
 
   const updateSearch = (e) => {
     setInputValue(e.target.value);
@@ -63,6 +78,7 @@ export default function Home() {
     e.preventDefault();
     setSearchQuery(inputValue);
     console.log(searchQuery);
+    setFirstFetch(false);
   };
 
   useEffect(() => {
@@ -70,6 +86,18 @@ export default function Home() {
 
     setItemPrice(itemAverage);
   }, [data]);
+
+  function handleSwitch() {
+    if (isChecked === false) {
+      setChecked(true);
+      setCondition(conditionIds.new);
+      console.log(conditionIds.new);
+    } else {
+      setChecked(false);
+      setCondition(conditionIds.used);
+      console.log(conditionIds.used);
+    }
+  }
 
   return (
     <React.Fragment>
@@ -79,10 +107,23 @@ export default function Home() {
         onClick={(e) => {
           getSearch(e);
         }}
-        onSubmit={(e) => {}}
+        onSubmit={(e) => {
+          getSearch(e);
+        }}
         inputValue={inputValue}
+        isChecked={isChecked}
+        handleSwitch={() => {
+          handleSwitch();
+        }}
       />
-      {showPrice ? (
+
+      {isFirstFetch ? null : loading ? (
+        <Loader />
+      ) : data.total === 0 ? (
+        <PriceWrapper>
+          <h3>No Results Found</h3>
+        </PriceWrapper>
+      ) : (
         <PriceWrapper>
           <PriceContainer
             display={''}
@@ -90,7 +131,7 @@ export default function Home() {
             priceDisplay={itemPrice}
           />{' '}
         </PriceWrapper>
-      ) : null}
+      )}
     </React.Fragment>
   );
 }

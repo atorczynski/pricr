@@ -6,8 +6,11 @@ import {
   SearchBarTitle,
   SearchButton,
   SearchBarButtonWrapper,
+  SwitchWrapper,
+  SwitchLabel,
 } from '../Container/SearchContainerComponents';
 import SearchIcon from '@material-ui/icons/Search';
+import Switch from 'react-switch';
 
 export default function SearchContainer({
   SBTitle,
@@ -16,6 +19,8 @@ export default function SearchContainer({
   onSubmit,
   onClick,
   inputValue,
+  isChecked,
+  handleSwitch,
 }) {
   const [placeholder, setPlaceholder] = useState(
     'Please enter the product name (e.g. Playstation 4)'
@@ -24,7 +29,7 @@ export default function SearchContainer({
   return (
     <SearchContainerWrapper inputValue={inputValue} recievedData={recievedData}>
       <SearchBarWrapper>
-        <SearchBarTitle>{SBTitle}</SearchBarTitle>
+        <SearchBarTitle>{'Whats my Stuff Worth?'}</SearchBarTitle>
         <SearchBarButtonWrapper onSubmit={onSubmit}>
           <SearchBar
             placeholder={placeholder}
@@ -50,6 +55,30 @@ export default function SearchContainer({
             <SearchIcon />
           </SearchButton>
         </SearchBarButtonWrapper>
+        <SwitchWrapper>
+          <SwitchLabel
+            marginRight={'10px'}
+            opacity={isChecked ? '50%' : '100%'}
+            color={'#ddd'}
+          >
+            Used
+          </SwitchLabel>
+          <Switch
+            checked={isChecked}
+            onChange={handleSwitch}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            onColor={'#ddd'}
+            offColor={'#dbd'}
+          />
+          <SwitchLabel
+            marginLeft={'10px'}
+            opacity={!isChecked ? '50%' : '100%'}
+            color={'#ddd'}
+          >
+            New
+          </SwitchLabel>
+        </SwitchWrapper>
       </SearchBarWrapper>
     </SearchContainerWrapper>
   );
