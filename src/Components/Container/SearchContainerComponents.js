@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button, FormControlLabel } from '@material-ui/core';
 import styled from '@emotion/styled';
 
 export const SearchContainerWrapper = styled.div`
@@ -77,4 +77,18 @@ export const SearchButton = styled(Button)`
   :hover {
     background: #f4d35e;
   }
+`;
+
+export const SwitchWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  align-items: center;
+`;
+
+export const SwitchLabel = styled.span`
+  color: ${(props) => props.color};
+  margin-left: ${(props) => props.marginLeft};
+  margin-right: ${(props) => props.marginRight};
+  opacity: ${(props) => props.opacity};
 `;
