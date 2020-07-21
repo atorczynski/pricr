@@ -13,6 +13,10 @@ const PriceWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
+const conditionIds = {
+  new: 'conditionIds%3a%7b1000%7c2000%7d',
+  used: 'conditionIds%3a%7b3000%7c6000%7d',
+};
 
 export default function Home() {
   const [data, setData] = useState({});
@@ -23,12 +27,7 @@ export default function Home() {
   const [isFirstFetch, setFirstFetch] = useState(true);
   const [isChecked, setChecked] = useState(false);
   const [showPrice, setShopPrice] = useState(false);
-  const [condition, setCondition] = useState();
-
-  const conditionIds = {
-    new: 'conditionIds%3a%7b1000%7c2000%7d',
-    used: 'conditionIds%3a%7b3000%7c6000%7d',
-  };
+  const [condition, setCondition] = useState(conditionIds.used);
 
   const isFirstRender = useRef(true);
 
@@ -69,7 +68,7 @@ export default function Home() {
       }
       getData();
     }
-  }, [searchQuery]);
+  }, [searchQuery, condition]);
 
   const updateSearch = (e) => {
     setInputValue(e.target.value);
@@ -91,12 +90,12 @@ export default function Home() {
   function handleSwitch() {
     if (isChecked === false) {
       setChecked(true);
-      setCondition(conditionIds.used);
-      console.log(conditionIds.used);
-    } else {
-      setChecked(false);
       setCondition(conditionIds.new);
       console.log(conditionIds.new);
+    } else {
+      setChecked(false);
+      setCondition(conditionIds.used);
+      console.log(conditionIds.used);
     }
   }
 
