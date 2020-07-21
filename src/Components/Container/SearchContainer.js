@@ -29,7 +29,7 @@ export default function SearchContainer({
   return (
     <SearchContainerWrapper inputValue={inputValue} recievedData={recievedData}>
       <SearchBarWrapper>
-        <SearchBarTitle>{SBTitle}</SearchBarTitle>
+        <SearchBarTitle>{'Whats my Stuff Worth?'}</SearchBarTitle>
         <SearchBarButtonWrapper onSubmit={onSubmit}>
           <SearchBar
             placeholder={placeholder}
@@ -59,6 +59,7 @@ export default function SearchContainer({
           <SwitchLabel
             marginRight={'10px'}
             opacity={isChecked ? '50%' : '100%'}
+            color={'#ddd'}
           >
             Used
           </SwitchLabel>
@@ -73,6 +74,7 @@ export default function SearchContainer({
           <SwitchLabel
             marginLeft={'10px'}
             opacity={!isChecked ? '50%' : '100%'}
+            color={'#ddd'}
           >
             New
           </SwitchLabel>
