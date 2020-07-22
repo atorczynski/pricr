@@ -19,8 +19,10 @@ const PriceWrapper = styled.div`
   border-radius: 5px;
   border: 1px solid rgb(13, 59, 102);
 
-  @media (max-width: 700px) {
-    width: 90%;
+  @media (max-width: 375px) {
+    height: 400px;
+    flex-direction: column;
+    width: 100%;
   }
 `;
 
@@ -89,15 +91,12 @@ export default function PriceContainer({
   priceDisplay,
   searchedItem,
   display,
+  itemImage,
 }) {
   return (
     <PriceWrapper display={display}>
       <ImgWrapper>
-        <ItemImage
-          src={
-            'https://ae01.alicdn.com/kf/HTB1HZJidtHO8KJjSZFHq6zWJFXaG/Waterproof-cell-phone-RugGear-RG710-GRANDTOUR-Unlocked-5-0inch-Android-smart-phone-4-core-NFC-Dual.jpg'
-          }
-        />
+        <ItemImage src={itemImage} />
       </ImgWrapper>
       <TestWrapper>
         <ItemInformationWrapper>
