@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import SearchContainer from '../Components/Container/SearchContainer';
 import PriceContainer from '../Components/PriceContainer/PriceContainer';
-import { calcPrice } from '../lib/calcAveragePrice';
+import { calcPrice, evalDates } from '../lib/lib';
 import { Loader } from '../Components/SpinLoader/SpinLoader';
 import InformationContainer from '../Components/InformationContainer/InformationContainer';
 import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
@@ -115,6 +115,7 @@ export default function Home() {
       setCondition(conditionIds.used);
       console.log(conditionIds.used);
       console.log(data);
+      console.log(evalDates(data.itemSales));
     }
   }
 
@@ -145,6 +146,7 @@ export default function Home() {
       ) : (
         <PriceWrapper>
           <PriceContainer
+            itemImage={''}
             display={''}
             searchedItem={searchQuery}
             priceDisplay={itemPrice}
