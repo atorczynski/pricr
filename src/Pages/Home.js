@@ -3,8 +3,32 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import SearchContainer from '../Components/Container/SearchContainer';
 import PriceContainer from '../Components/PriceContainer/PriceContainer';
-import { calcPrice } from '../lib/calcAveragePrice';
+import { calcPrice, evalDates } from '../lib/lib';
 import { Loader } from '../Components/SpinLoader/SpinLoader';
+import InformationContainer from '../Components/InformationContainer/InformationContainer';
+import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
+
+const iconStyle = {
+  largeIcon: {
+    width: 100,
+    height: 100,
+  },
+};
+
+const InformationWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-top: 50px;
+  width: 100%;
+`;
+
+const InformationText = styled.p`
+  width: 80%;
+  font-weight: 400;
+  opacity: 70%;
+  text-align: center;
+`;
 
 const PriceWrapper = styled.div`
   display: flex;
@@ -43,7 +67,7 @@ export default function Home() {
   useEffect(() => {
     if (isFirstRender.current) {
       isFirstRender.current = false;
-    } else {
+    } else if (searchQuery) {
       async function getData() {
         try {
           setLoading(true);
@@ -90,6 +114,8 @@ export default function Home() {
       setChecked(false);
       setCondition(conditionIds.used);
       console.log(conditionIds.used);
+      console.log(data);
+      console.log(evalDates(data.itemSales));
     }
   }
 
@@ -111,20 +137,52 @@ export default function Home() {
         }}
       />
 
-      {isFirstFetch ? null : loading ? (
+      {isFirstFetch || !searchQuery ? null : loading ? (
         <Loader />
-      ) : data.total === 0 ? (
+      ) : data.total === 0 || !searchQuery ? (
         <PriceWrapper>
           <h3>No Results Found</h3>
         </PriceWrapper>
       ) : (
         <PriceWrapper>
           <PriceContainer
+            itemImage={''}
             display={''}
             searchedItem={searchQuery}
             priceDisplay={itemPrice}
           />{' '}
         </PriceWrapper>
+      )}
+      {!isFirstFetch && searchQuery ? null : (
+        <InformationWrapper>
+          <InformationContainer>
+            <MonetizationOnOutlinedIcon style={iconStyle.largeIcon} />
+            <h2>Fast and Easy Price Estimate</h2>
+            <InformationText>
+              About to sell your stuff? Want to know what you will get by
+              auctionating it? View your estimated revenue by simply searching
+              your item in our search.
+            </InformationText>
+          </InformationContainer>
+          <InformationContainer>
+            <MonetizationOnOutlinedIcon style={iconStyle.largeIcon} />
+            <h2>Fast and Easy Price Estimate</h2>
+            <InformationText>
+              About to sell your stuff? Want to know what you will get by
+              auctionating it? View your estimated revenue by simply searching
+              your item in our search.
+            </InformationText>
+          </InformationContainer>
+          <InformationContainer>
+            <MonetizationOnOutlinedIcon style={iconStyle.largeIcon} />
+            <h2>Fast and Easy Price Estimate</h2>
+            <InformationText>
+              About to sell your stuff? Want to know what you will get by
+              auctionating it? View your estimated revenue by simply searching
+              your item in our search.
+            </InformationText>
+          </InformationContainer>
+        </InformationWrapper>
       )}
     </React.Fragment>
   );

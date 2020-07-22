@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import { Button } from '@material-ui/core';
 
 const PriceWrapper = styled.div`
-  width: 30%;
+  min-width: 50%;
+  max-width: 60%;
   height: 200px;
   display: flex;
   flex-direction: row;
@@ -18,13 +19,16 @@ const PriceWrapper = styled.div`
   border-radius: 5px;
   border: 1px solid rgb(13, 59, 102);
 
-  @media (max-width: 700px) {
-    width: 90%;
+  @media (max-width: 375px) {
+    height: 400px;
+    flex-direction: column;
+    width: 100%;
   }
 `;
 
 const ImgWrapper = styled.div`
-  width: 40%;
+  min-width: 200px;
+  max-width: 200px;
   height: 100%;
   position: relative;
   overflow: none;
@@ -48,9 +52,8 @@ const PriceInformationWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
+  width: 100%;
   height: 45px;
-  background: #ee964b;
   border-radius: 35px;
 `;
 
@@ -88,15 +91,12 @@ export default function PriceContainer({
   priceDisplay,
   searchedItem,
   display,
+  itemImage,
 }) {
   return (
     <PriceWrapper display={display}>
       <ImgWrapper>
-        <ItemImage
-          src={
-            'https://ae01.alicdn.com/kf/HTB1HZJidtHO8KJjSZFHq6zWJFXaG/Waterproof-cell-phone-RugGear-RG710-GRANDTOUR-Unlocked-5-0inch-Android-smart-phone-4-core-NFC-Dual.jpg'
-          }
-        />
+        <ItemImage src={itemImage} />
       </ImgWrapper>
       <TestWrapper>
         <ItemInformationWrapper>
