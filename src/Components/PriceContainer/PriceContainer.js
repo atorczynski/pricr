@@ -3,7 +3,8 @@ import styled from '@emotion/styled';
 import { Button } from '@material-ui/core';
 
 const PriceWrapper = styled.div`
-  width: 30%;
+  min-width: 50%;
+  max-width: 60%;
   height: 200px;
   display: flex;
   flex-direction: row;
@@ -24,7 +25,8 @@ const PriceWrapper = styled.div`
 `;
 
 const ImgWrapper = styled.div`
-  width: 40%;
+  min-width: 200px;
+  max-width: 200px;
   height: 100%;
   position: relative;
   overflow: none;
@@ -48,9 +50,8 @@ const PriceInformationWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
+  width: 100%;
   height: 45px;
-  background: #ee964b;
   border-radius: 35px;
 `;
 
