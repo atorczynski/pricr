@@ -12,7 +12,7 @@ export function calcPrice(data) {
   }
 }
 
-export function evalDates(data) {
+export function evalDates(data, option) {
   if (!data) {
     return;
   } else {
@@ -26,7 +26,31 @@ export function evalDates(data) {
       if (date1 > date2) return 1;
       if (date1 < date2) return -1;
     });
-    console.log(sortedByDate.pop());
-    console.log(sortedByDate.slice(0, 1).toString());
+
+    if (option === 'all') {
+      return sortedByDate;
+    } else if (option === 'lastDate') {
+      const lastSoldDate = new Date(sortedByDate.pop());
+      return lastSoldDate.toLocaleDateString();
+    } else if (option === 'firstDate') {
+      const firstDate = new Date(sortedByDate.slice(0, 1));
+      return firstDate.toLocaleDateString();
+    }
+  }
+}
+
+export function getImage(data) {
+  if (!data) {
+    return;
+  } else {
+    let imgArray = [];
+    data.forEach((item) => {
+      if (item.image) {
+        imgArray.push(item.image.imageUrl);
+      } else {
+        return;
+      }
+    });
+    return imgArray;
   }
 }

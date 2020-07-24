@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import axios from 'axios';
 import SearchContainer from '../Components/Container/SearchContainer';
 import PriceContainer from '../Components/PriceContainer/PriceContainer';
-import { calcPrice, evalDates } from '../lib/lib';
+import { calcPrice, evalDates, getImage } from '../lib/lib';
 import { Loader } from '../Components/SpinLoader/SpinLoader';
 import InformationContainer from '../Components/InformationContainer/InformationContainer';
 import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
@@ -42,7 +42,7 @@ const conditionIds = {
   used: 'conditionIds%3a%7b3000%7c6000%7d',
 };
 
-export default function Home() {
+export default function Home({ imageUrl }) {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [itemPrice, setItemPrice] = useState(null);
@@ -116,6 +116,7 @@ export default function Home() {
       console.log(conditionIds.used);
       console.log(data);
       console.log(evalDates(data.itemSales));
+      console.log(getImage(data.itemSales));
     }
   }
 
@@ -146,10 +147,11 @@ export default function Home() {
       ) : (
         <PriceWrapper>
           <PriceContainer
-            itemImage={''}
+            itemImage={getImage(data.itemSales)}
             display={''}
             searchedItem={searchQuery}
             priceDisplay={itemPrice}
+            lastSoldDate={evalDates(data.itemSales, 'lastDate')}
           />{' '}
         </PriceWrapper>
       )}

@@ -18,11 +18,11 @@ export default function Header({ heading }) {
         </HeaderLink>
         <NaviList>
           <NaviListItemLink href={'/'}>
-            <NaviListItem>Login</NaviListItem>
-         </NaviListItemLink>
-         <NaviListItemLink href={'/'}>
-            <NaviListItem>Register</NaviListItem>
-         </NaviListItemLink>
+            <NaviListItem>Popular</NaviListItem>
+          </NaviListItemLink>
+          <NaviListItemLink href={'/'}>
+            <NaviListItem>Live</NaviListItem>
+          </NaviListItemLink>
         </NaviList>
       </HeaderWrapper>
     </HeaderContainer>

@@ -92,6 +92,7 @@ export default function PriceContainer({
   searchedItem,
   display,
   itemImage,
+  lastSoldDate,
 }) {
   return (
     <PriceWrapper display={display}>
@@ -115,12 +116,7 @@ export default function PriceContainer({
           </PriceInformationWrapper>
         </ItemInformationWrapper>
         <ButtonWrapper>
-          <Button size={'small'} variant={'contained'} color={'primary'}>
-            Save Item
-          </Button>
-          <Button size={'small'} variant={'contained'} color={'primary'}>
-            Show on ebay
-          </Button>
+          <p>Last Sold: {lastSoldDate}</p>
         </ButtonWrapper>
       </TestWrapper>
     </PriceWrapper>
