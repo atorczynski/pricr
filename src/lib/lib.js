@@ -17,9 +17,10 @@ export function evalDates(data, option) {
     return;
   } else {
     let itemDates = [];
-    data.map((item) => {
+    data.forEach((item) => {
       itemDates.push(item.lastSoldDate);
     });
+    // eslint-disable-next-line
     const sortedByDate = itemDates.sort(function (date1, date2) {
       date1 = new Date(date1);
       date2 = new Date(date2);
