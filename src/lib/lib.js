@@ -39,7 +39,7 @@ export function evalDates(data, option) {
   }
 }
 
-export function getImage(data) {
+export function getImage(data, cb) {
   if (!data) {
     return;
   } else {
@@ -51,6 +51,9 @@ export function getImage(data) {
         return;
       }
     });
+    if (imgArray.length === 0) {
+      cb();
+    }
     return imgArray;
   }
 }
