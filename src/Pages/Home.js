@@ -8,6 +8,8 @@ import { Loader } from '../Components/SpinLoader/SpinLoader';
 import InformationContainer from '../Components/InformationContainer/InformationContainer';
 import MonetizationOnOutlinedIcon from '@material-ui/icons/MonetizationOnOutlined';
 
+import Querystring from 'querystring';
+
 const iconStyle = {
   largeIcon: {
     width: 100,
@@ -42,7 +44,7 @@ const conditionIds = {
   used: 'conditionIds%3a%7b3000%7c6000%7d',
 };
 
-export default function Home({ imageUrl }) {
+export default function Home() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [itemPrice, setItemPrice] = useState(null);
@@ -50,15 +52,36 @@ export default function Home({ imageUrl }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFirstFetch, setFirstFetch] = useState(true);
   const [isChecked, setChecked] = useState(false);
+  const [auth, setAuth] = useState({});
   const [condition, setCondition] = useState(conditionIds.used);
 
   const isFirstRender = useRef(true);
 
-  const apiKey = process.env.REACT_APP_API_KEY;
-
-  const headers = {
+  const updateHeader = {
     headers: {
-      Authorization: `Bearer ${apiKey}`,
+      Authorization: `Basic ${process.env.REACT_APP_API_REFRESHTOKEN}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'x-requested-with': 'Accept',
+    },
+  };
+
+  let body = Querystring['stringify']({
+    grant_type: 'client_credentials',
+    scope: 'https://api.ebay.com/oauth/api_scope/buy.marketplace.insights',
+  });
+
+  const updateToken = async () => {
+    const request = await axios.post(
+      'https://cors-anywhere.herokuapp.com/https://api.sandbox.ebay.com/identity/v1/oauth2/token',
+      body,
+      updateHeader
+    );
+    setAuth(request.data.access_token);
+  };
+
+  let headers = {
+    headers: {
+      Authorization: `Bearer ${auth}`,
       'X-EBAY-C-MARKETPLACE-ID': 'EBAY_DE',
       'x-requested-with': 'Accept',
     },
@@ -66,6 +89,7 @@ export default function Home({ imageUrl }) {
 
   useEffect(() => {
     if (isFirstRender.current) {
+      updateToken();
       isFirstRender.current = false;
     } else if (searchQuery) {
       async function getData() {
@@ -86,6 +110,7 @@ export default function Home({ imageUrl }) {
       }
       getData();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, condition]);
 
   const updateSearch = (e) => {
@@ -109,7 +134,6 @@ export default function Home({ imageUrl }) {
     if (isChecked === false) {
       setChecked(true);
       setCondition(conditionIds.new);
-      console.log(conditionIds.new);
     } else {
       setChecked(false);
       setCondition(conditionIds.used);
@@ -147,7 +171,9 @@ export default function Home({ imageUrl }) {
       ) : (
         <PriceWrapper>
           <PriceContainer
-            itemImage={getImage(data.itemSales)}
+            itemImage={getImage(data.itemSales, () => {
+              console.log('no img');
+            })}
             display={''}
             searchedItem={searchQuery}
             priceDisplay={itemPrice}

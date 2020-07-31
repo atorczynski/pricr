@@ -17,9 +17,10 @@ export function evalDates(data, option) {
     return;
   } else {
     let itemDates = [];
-    data.map((item) => {
+    data.forEach((item) => {
       itemDates.push(item.lastSoldDate);
     });
+    // eslint-disable-next-line
     const sortedByDate = itemDates.sort(function (date1, date2) {
       date1 = new Date(date1);
       date2 = new Date(date2);
@@ -39,7 +40,7 @@ export function evalDates(data, option) {
   }
 }
 
-export function getImage(data) {
+export function getImage(data, cb) {
   if (!data) {
     return;
   } else {
@@ -51,6 +52,9 @@ export function getImage(data) {
         return;
       }
     });
+    if (imgArray.length === 0) {
+      cb();
+    }
     return imgArray;
   }
 }

@@ -1,4 +1,4 @@
-import React, { Children } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 
 const InformationWrapper = styled.div`
