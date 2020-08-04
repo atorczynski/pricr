@@ -69,14 +69,13 @@ export const ButtonContainer = styled.div`
 export const SearchButton = styled(Button)`
   outline: none;
   width: 50px;
-  height: 38px;
+  height: 40px;
   background-color: black;
   cursor: pointer;
   font-size: 17px;
   font-weight: 400;
   padding: 7px 15px;
   text-transform: uppercase;
-  border-radius: 0px;
 
   :hover {
     background: #f4d35e;
