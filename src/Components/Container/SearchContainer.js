@@ -25,11 +25,19 @@ export default function SearchContainer({
     'Please enter the product name (e.g. Playstation 4)'
   );
 
+  const buttonStyle = {
+    roundedButton: {
+      borderTopRightRadius: 25,
+      borderBottomRightRadius: 25,
+      height: 40,
+    },
+  };
+
   return (
     <SearchContainerWrapper inputValue={inputValue} recievedData={recievedData}>
       <SearchBarWrapper>
         <SearchBarTitle>{'Whats my Stuff Worth?'}</SearchBarTitle>
-        <SearchBarButtonWrapper onSubmit={onSubmit}>
+        <SearchBarButtonWrapper onSubmit={onSubmit} autoComplete={'on'}>
           <SearchBar
             placeholder={placeholder}
             value={inputValue}
@@ -46,7 +54,7 @@ export default function SearchContainer({
           />
           <SearchButton
             onClick={onClick}
-            style={{ borderRadius: 0 }}
+            style={buttonStyle.roundedButton}
             size={'medium'}
             variant='contained'
             color={'primary'}

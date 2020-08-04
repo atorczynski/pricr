@@ -26,11 +26,19 @@ const PriceWrapper = styled.div`
 `;
 
 const ImgWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
   min-width: 200px;
   max-width: 200px;
   height: 100%;
   position: relative;
   overflow: none;
+
+  @media (max-width: 375px) {
+    min-width: 100%;
+  }
 `;
 
 const ItemImage = styled.img`
